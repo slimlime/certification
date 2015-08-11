@@ -2,7 +2,7 @@ import sys
 import sqlite3
 import datetime
 
-QUERY = "select person.personal || ' ' || person.family from person where person.person=?;"
+QUERY = "select personal || ' ' || family from workshops_person where username=?;"
 
 COMMAND = "python bin/certificates.py -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape -s $PWD/instructor.svg -o $PWD/instructor/{0}.pdf date='{1}' instructor='Greg Wilson' name='{2}'"
 

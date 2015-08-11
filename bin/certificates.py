@@ -5,8 +5,8 @@ Generate a certificate from a template.  On a Mac, a typical command line is
 
 python bin/certificates.py \
        -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
-       -s $HOME/certificates/instructor.svg \
-       -o $HOME/certificates/instructor/turing.alan.pdf \
+       -s $HOME/certification/instructor.svg \
+       -o $HOME/certification/instructor/turing.alan.pdf \
        date='January 24, 1924' \
        instructors='Ada Lovelace' \
        name='Alan Turing'
