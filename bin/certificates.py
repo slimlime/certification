@@ -8,7 +8,7 @@ python bin/certificates.py \
        -s $HOME/certification/instructor.svg \
        -o $HOME/certification/instructor/turing.alan.pdf \
        date='January 24, 1924' \
-       instructors='Ada Lovelace' \
+       instructor='Ada Lovelace' \
        name='Alan Turing'
 '''
 
