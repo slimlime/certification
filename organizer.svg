@@ -2545,7 +2545,7 @@
      x="204.71094"
      y="107.3148"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#414042"
-     sodipodi:linespacing="125%">Certificate of Organizer</text>
+     sodipodi:linespacing="125%">Certificate of Achievement</text>
 <g
      id="g7454"><rect
        x="753.76"
@@ -3089,12 +3089,7 @@
        x="90.199013"
        y="472.70264"
        id="tspan6513"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:150%;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#808285;fill-opacity:1">Date of Award: {{date}}</tspan><tspan
-       sodipodi:role="line"
-       x="90.199013"
-       y="498.95264"
-       id="tspan6517"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:150%;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#808285;fill-opacity:1">Certified by: {{instructors}}</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:150%;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#808285;fill-opacity:1">Date of Award: {{date}}</tspan></text>
 <g
      id="g3014_1_"
      transform="matrix(1.338129,0,0,1.3169025,323.47351,124.06286)"><g
