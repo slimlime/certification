@@ -19,6 +19,7 @@ from optparse import OptionParser
 import tempfile
 import subprocess
 import unicodedata
+from datetime import date
 
 def main():
     args = parse_args()
@@ -46,6 +47,7 @@ def parse_args():
 
 def extract_parameters(args):
     '''Extract key-value pairs (checking for uniqueness).'''
+
     result = {}
     for a in args:
         fields = a.split('=')
@@ -53,6 +55,8 @@ def extract_parameters(args):
         key, value = fields
         assert key not in result, 'Duplicate key "{0}"'.format(key)
         result[key] = value
+    if 'date' not in result:
+        result['date'] = date.strftime(date.today(), '%B %-d, %Y')
     return result
 
 def check(template, params):
