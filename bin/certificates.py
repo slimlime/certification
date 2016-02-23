@@ -25,14 +25,13 @@ file, and creates $(ROOT_DIRECTORY)/$(BADGE_TYPE)/$(USER_ID).pdf as output.
 
 This script will also take a CSV file as input.  The file must contain rows of:
 
-    badge,name,user_id,date
+    badge,user_id,name,email,date
 
 such as:
 
-    swc-instructor,Alan Turing,turing_alan,"January 24, 1924"
+    swc-instructor,Alan Turing,turing_alan,2016-01-27
 
-(Note the quoting, since the date contains a comma.)  In this case, the
-command line invocation is:
+In this case, the command line invocation is:
 
 python bin/certificates.py \
        -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
@@ -49,7 +48,11 @@ import tempfile
 import subprocess
 import unicodedata
 from optparse import OptionParser
+import time
 from datetime import date
+
+
+DATE_FORMAT = '%B %-d, %Y'
 
 
 def main():
@@ -90,7 +93,7 @@ def parse_args():
 
     args.params = extract_parameters(extras)
     if 'date' not in args.params:
-        args.params['date'] = date.strftime(date.today(), '%B %-d, %Y')
+        args.params['date'] = date.strftime(date.today(), DATE_FORMAT)
 
     return args
 
@@ -114,8 +117,12 @@ def process_csv(args):
     with open(args.csv_file, 'r') as raw:
         reader = csv.reader(raw)
         for row in reader:
-            check(len(row) == 4, 'Badly-formatted row in CSV: {0}'.format(row))
-            badge_type, args.params['name'], user_id, args.params['date'] = row
+            check(len(row) == 5, 'Badly-formatted row in CSV: {0}'.format(row))
+            badge_type, user_id, args.params['name'], email, args.params['date'] = row
+            if '-' in args.params['date']:
+                d = time.strptime(args.params['date'], '%Y-%m-%d')
+                d = date(*d[:3])
+                args.params['date'] = date.strftime(d, DATE_FORMAT)
             template_path = construct_template_path(args.root_dir, badge_type)
             output_path = construct_output_path(args.root_dir, badge_type, user_id)
             create_certificate(args.inkscape, template_path, output_path, args.params)
