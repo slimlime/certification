@@ -29,7 +29,7 @@ This script will also take a CSV file as input.  The file must contain rows of:
 
 such as:
 
-    swc-instructor,Alan Turing,turing_alan,2016-01-27
+    swc-instructor,turing_alan,Alan Turing,alan@turing.org,2016-01-27
 
 In this case, the command line invocation is:
 
