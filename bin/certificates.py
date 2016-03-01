@@ -25,11 +25,11 @@ file, and creates $(ROOT_DIRECTORY)/$(BADGE_TYPE)/$(USER_ID).pdf as output.
 
 This script will also take a CSV file as input.  The file must contain rows of:
 
-    badge,user_id,name,email,date
+    badge,trainer,user_id,new_instructor,email,date
 
 such as:
 
-    swc-instructor,turing_alan,Alan Turing,alan@turing.org,2016-01-27
+    swc-instructor,Grace Hopper,turing_alan,Alan Turing,alan@turing.org,2016-01-27
 
 In this case, the command line invocation is:
 
@@ -37,7 +37,6 @@ python bin/certificates.py \
        -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
        -r $HOME/sc/certification/ \
        -c input.csv
-       instructor='Ada Lovelace'
 '''
 
 import sys
@@ -99,7 +98,7 @@ def parse_args():
 
 
 def extract_parameters(args):
-    '''Extract key-value pairs (checking for uniqueness).'''
+    '''Extract key-value pairs from command line (checking for uniqueness).'''
 
     result = {}
     for a in args:
@@ -117,8 +116,8 @@ def process_csv(args):
     with open(args.csv_file, 'r') as raw:
         reader = csv.reader(raw)
         for row in reader:
-            check(len(row) == 5, 'Badly-formatted row in CSV: {0}'.format(row))
-            badge_type, user_id, args.params['name'], email, args.params['date'] = row
+            check(len(row) == 6, 'Badly-formatted row in CSV: {0}'.format(row))
+            badge_type, args.params['instructor'], user_id, args.params['name'], email, args.params['date'] = row
             if '-' in args.params['date']:
                 d = time.strptime(args.params['date'], '%Y-%m-%d')
                 d = date(*d[:3])
