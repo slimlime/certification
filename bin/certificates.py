@@ -50,6 +50,7 @@ import unicodedata
 from optparse import OptionParser
 import time
 from datetime import date
+import cairosvg
 
 
 DATE_FORMAT = '%B %-d, %Y'
@@ -161,11 +162,7 @@ def create_certificate(inkscape_path, template_path, output_path, params):
     tmp = tempfile.NamedTemporaryFile(suffix='.svg', delete=False)
     tmp.write(bytes(template, 'utf-8'))
 
-    subprocess.call([inkscape_path,
-                     '--export-pdf', output_path,
-                     tmp.name,
-                     '--export-dpi', '600'])
-
+    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=600)
 
 
 def check_template(template, params):
