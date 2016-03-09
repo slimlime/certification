@@ -167,7 +167,7 @@ def create_certificate(template_path, output_path, params):
     tmp = tempfile.NamedTemporaryFile(suffix='.svg', delete=False)
     tmp.write(bytes(template, 'utf-8'))
 
-    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=1200)
+    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=90)
 
 
 def check_template(template, params):
