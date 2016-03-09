@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
 '''
-Generate a certificate from a template.  On a Mac, a typical command line is
+Generate a certificate from a template.
+
+* Requires the python package 'cairosvg' to be installed.
+  Please visit http://cairosvg.org/ for install instructions.
+* Some systems may also need to have 'cairo' installed.
+  Please visit http://cairographics.org/download/ for the same.
+
+On a Mac, a typical command line is
 
 python bin/certificates.py \
        -b swc-instructor
@@ -160,7 +167,7 @@ def create_certificate(template_path, output_path, params):
     tmp = tempfile.NamedTemporaryFile(suffix='.svg', delete=False)
     tmp.write(bytes(template, 'utf-8'))
 
-    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=600)
+    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=1200)
 
 
 def check_template(template, params):
