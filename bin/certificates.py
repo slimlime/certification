@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
 '''
-Generate a certificate from a template.  On a Mac, a typical command line is
+Generate a certificate from a template.
+
+* Requires the python package 'cairosvg' to be installed.
+  Please visit http://cairosvg.org/ for install instructions.
+* Some systems may also need to have 'cairo' installed.
+  Please visit http://cairographics.org/download/ for the same.
+
+On a Mac, a typical command line is
 
 python bin/certificates.py \
-       -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
        -b swc-instructor
        -r $HOME/sc/certification/ \
        -u turing_alan
@@ -14,7 +20,6 @@ python bin/certificates.py \
 
 where:
 
-    -i:         INKSCAPE_NAME (optional)
     -b:         BADGE_TYPE
     -r:         ROOT_DIRECTORY
     -u:         USER_ID
@@ -34,7 +39,6 @@ such as:
 In this case, the command line invocation is:
 
 python bin/certificates.py \
-       -i /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
        -r $HOME/sc/certification/ \
        -c input.csv
 '''
@@ -49,6 +53,7 @@ import unicodedata
 from optparse import OptionParser
 import time
 from datetime import date
+import cairosvg
 
 
 DATE_FORMAT = '%B %-d, %Y'
@@ -66,10 +71,12 @@ def parse_args():
     '''Get command-line arguments.'''
 
     parser = OptionParser()
+    # -i argument retained for backward incompatibility,
+    #  not used anymore
     parser.add_option('-i', '--ink',
                       default='/Applications/Inkscape.app/Contents/Resources/bin/inkscape',
                       dest='inkscape',
-                      help='Path to Inkscape')
+                      help='[deprecated] Path to Inkscape')
     parser.add_option('-b', '--badge',
                       default=None, dest='badge_type', help='Type of badge')
     parser.add_option('-r', '--root',
@@ -80,7 +87,6 @@ def parse_args():
                       default=None, dest='csv_file', help='CSV file')
 
     args, extras = parser.parse_args()
-    check(args.inkscape is not None, 'Path to Inkscape not given')
     check(args.root_dir is not None, 'Must specify root directory')
     msg = 'Must specify either CSV file or both root directory and user ID'
     if args.csv_file is not None:
@@ -124,14 +130,14 @@ def process_csv(args):
                 args.params['date'] = date.strftime(d, DATE_FORMAT)
             template_path = construct_template_path(args.root_dir, badge_type)
             output_path = construct_output_path(args.root_dir, badge_type, user_id)
-            create_certificate(args.inkscape, template_path, output_path, args.params)
+            create_certificate(template_path, output_path, args.params)
 
 def process_single(args):
     '''Process a single entry.'''
 
     template_path = construct_template_path(args.root_dir, args.badge_type)
     output_path = construct_output_path(args.root_dir, args.badge_type, args.user_id)
-    create_certificate(args.inkscape, template_path, output_path, args.params)
+    create_certificate(template_path, output_path, args.params)
 
 
 def construct_template_path(root_dir, badge_type):
@@ -146,7 +152,7 @@ def construct_output_path(root_dir, badge_type, user_id):
     return os.path.join(root_dir, badge_type, user_id + '.pdf')
 
 
-def create_certificate(inkscape_path, template_path, output_path, params):
+def create_certificate(template_path, output_path, params):
     '''Create a single certificate.'''
 
     with open(template_path, 'r') as reader:
@@ -160,11 +166,7 @@ def create_certificate(inkscape_path, template_path, output_path, params):
     tmp = tempfile.NamedTemporaryFile(suffix='.svg', delete=False)
     tmp.write(bytes(template, 'utf-8'))
 
-    subprocess.call([inkscape_path,
-                     '--export-pdf', output_path,
-                     tmp.name,
-                     '--export-dpi', '600'])
-
+    cairosvg.svg2pdf(url=tmp.name, write_to=output_path, dpi=90)
 
 
 def check_template(template, params):
